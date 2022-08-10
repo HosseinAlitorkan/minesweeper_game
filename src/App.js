@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
-
+import classes from './App.module.css';
+import {Routes,Route,Link} from 'react-router-dom'
+import Lay from './Components/Layout/Lay';
+import Login from "./Pages/Auth"
+ import Game from "./Components/Minesweeper_elems/Game"
+import Home from "./Pages/Home"
+import  Level from "./Pages/Level";
+import {useSelector,useDispatch} from 'react-redux';
+import GameContext from './Context/Game_Context';
+import {useState} from 'react';
+import Sign from './Pages/Sign';
 function App() {
+  const  isLogedIn=useSelector((state)=>state.data.isLogedIn)
+  const dispatch=useDispatch()
+  const [state,setstate]=useState({})
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <GameContext.Provider value={[state,setstate]}>
+      <Routes>
+        <Route path='/' element={<Lay/>}>
+          <Route index element={<Home/>} />
+          {!isLogedIn && <Route path='login' element={<Login/>}/>}
+          {!isLogedIn && <Route path='signup' element={<Sign/>}/>}
+          <Route path='level' element={<Level/>}/>
+          <Route path="game" element={<Game/>}/>
+            
+          
+          
+        </Route>
+        
+      </Routes>
+    
+    </GameContext.Provider>
   );
 }
 

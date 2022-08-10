@@ -1,0 +1,21 @@
+.home_menu{
+    margin: 10rem auto;
+    margin-top: 5rem;
+    margin-bottom: 15rem;
+    display: flex;
+    flex-direction: column;
+    font-size: 2rem;
+}
+.home_menu,.home_inter a{
+    margin: auto;
+    margin-bottom: 1rem;
+    text-decoration: none;
+}
+.home_inter{
+    margin: 10rem auto;
+    margin-top: 5rem;
+    margin-bottom: 15rem;
+    display: flex;
+    flex-direction: column;
+    font-size: 2rem;
+}

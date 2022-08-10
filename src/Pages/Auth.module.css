@@ -1,0 +1,35 @@
+.login{
+    margin: 3rem auto;
+    font-size:2rem;
+}
+.form{
+    display:flex;
+    flex-direction:column;
+    margin: auto;
+    /* border: 1px solid rgb(213, 24, 166);
+    border-radius: 5px; */
+    padding: 3rem;
+}
+.form .input{
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    margin: 1rem;
+    border: 3px solid rgb(3, 23, 75);
+    height: 2rem;
+    
+}   
+.pass_error,.name_error{
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    margin: 1rem;
+    height: 2rem;
+    box-shadow: 4px 2px 10px  rgb(208, 52, 28);
+    border: 3px solid rgb(177, 13, 13);
+}
+.submit{
+    font-weight: 700;
+}
+.login_text{
+    margin: 1rem auto;
+    text-align: center;
+}

@@ -1,0 +1,15 @@
+.board{
+    display: flex;
+    flex-direction: column;    
+    line-height:0;
+    display:table;
+   
+
+}
+.table_row{
+    
+   /* display:table; */
+   margin: 0;
+   line-height:0; 
+    
+}

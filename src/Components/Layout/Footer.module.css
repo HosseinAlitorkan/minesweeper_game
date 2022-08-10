@@ -1,0 +1,20 @@
+.footer{
+    
+    
+    background-color:rgb(0, 157, 255);
+    color:azure;
+   
+    width: 100%;
+    padding: 2rem;
+    width: auto;
+    font-size:2rem;
+    margin-top  : auto;
+    
+    
+    
+}
+.footer a{
+    color: azure;
+    text-decoration: none;
+    
+}
