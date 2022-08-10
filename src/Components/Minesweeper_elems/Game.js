@@ -1,9 +1,11 @@
 import classes from './Game.module.css';
 import Board from './Board'
-import {useState,useReducer} from 'react';
+import {useState,useReducer,useEffect} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
-import {over,win,setarray} from '../../Features/Data'
+import {over,win,setarray} from '../../Features/Data';
+import {useNavigate} from 'react-router-dom';
 import Timer from '../Layout/Timer';
+import Result from '../Result/Result';
 function reducer(state, action) {
     
     if(action.type ==='flag'){
@@ -27,6 +29,9 @@ function reducer(state, action) {
     }
     else if(action.type ==='win'){
         return {...state,game_winner:true}
+    }
+    else if(action.type ==='close'){
+        return {...state,game_winner:false}
     }
 }
 const initgame={bomb_num:30,bomb_flagged:0,
@@ -72,18 +77,25 @@ function CreteGame(n_row,n_col,bomb_num)
 
 function Game(props)
 {   
+    const navigate=useNavigate();
     const n_col = 9,n_row = 9;
     const [show_arr,set_showarr]=useState([]);
     const [game,dispatch] = useReducer(reducer,initgame);
     const [table_arr,set_arr]=useState(CreteGame(9,9,30));
+    const [game_end,setgame_end]=useState(false);
+    console.log("flagged bomb: ",game.bomb_flagged,game.bomb_num);
+    useEffect(()=>{
+        console.log("check winning");
+        if(game.bomb_flagged==game.bomb_num && !game_end)
+        {
+            //dispatch({type:"lose"});
+            dispatch({type:"win"});
+            setgame_end(true);
+            console.log("you win");
+            navigate('login');
+        }
+    },[game])
     
-    console.log("flagged bomb: ",game.bomb_flagged);
-    if(game.bomb_flaged==game.bomb_num)
-    {
-        dispatch({type:"lose"});
-        dispatch({type:"win"});
-        console.log("you win");
-    }
     function clickHandler(i,event,style,setstyle)
     {
        if(game.game_status ===true)
@@ -101,6 +113,7 @@ function Game(props)
                 if(table_arr[i]=='B' )
                 {
                     setstyle((last)=>{return {...last,bombed:true}})
+                    //setstyle((last)=>{return {...last,number:'B'}})
                     dispatch({type:'lose'});
                     
                 }
@@ -182,7 +195,13 @@ function Game(props)
         return;
         
     }
-    
+    function modalHandler(event){
+        dispatch({type:"close"});
+    }
+    function restart(){
+        console.log("restart");
+        window.location.reload(false);
+    }
     console.log(table_arr);
     return (
     <div className={classes.game}>
@@ -197,7 +216,8 @@ function Game(props)
         </div>
         <Board level='easy' 
          onContextMenu={contextMenuHandler} onClick={clickHandler}  change={set_changer}/>
-           
+        {game.game_winner && <Result message='You Win😁' onClick={modalHandler} />  } 
+        {!game.game_status &&<button className={classes.restart} onClick={restart}>ReStart</button>}
          
     </div>
     );
