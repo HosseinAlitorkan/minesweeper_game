@@ -1,6 +1,8 @@
 import  classes from "./Sign.module.css";
 import useInput from "../Hooks/useInput";
 import {useNavigate} from 'react-router-dom';
+import Result from "../Components/Result/Result";
+import {useState} from "react";
 function namevalidate(name) {
     if(name.trim()=='')
     {
@@ -16,6 +18,7 @@ function passvalidate(pass){
 }
 function Sign(props) {
     const navigate=useNavigate();
+    const [modal,setmodal]=useState(false);
     const {value:nameValue,
         haserror:nameHasError,
         reset:nameReset,
@@ -44,14 +47,31 @@ function Sign(props) {
         {
             return ;
         }
-        
-        localStorage.setItem(nameValue,passValue);
-        navigate('/', { replace: true });
+        if(localStorage.getItem(nameValue)==null)
+        {
+            localStorage.setItem(nameValue,JSON.stringify({password:passValue,score:null}));
 
-    }  
+            //navigate('/', { replace: true });
+            setmodal("sign up was successful");
+        }
+        else{
+            setmodal("this user name already exist");
+        }
+
+    }
+    function modalClickHandler(event){
+        if(modal=='sign up was successful')
+        {
+            navigate('/', { replace: true });
+        }
+        else {
+            setmodal(false);
+        }
+    }
     const user_class =!nameHasError? classes.input:classes.name_error;
     const pass_class=!passHasError? classes.input:classes.pass_error;
-    const cpass_class = !cpassHasError? classes.input:classes.pass_error;  
+    const cpass_class = !cpassHasError? classes.input:classes.pass_error;
+
     return (
         <div className={classes.signup}>
             <h2 className={classes.header}>Mine Sweeper Game</h2>
@@ -71,6 +91,7 @@ function Sign(props) {
                  onSubmit={submitHandler} onClick={submitHandler} type='submit' value='Submit' />
                 
             </form>
+            {modal && <Result message={modal} onClick={modalClickHandler}></Result>}
         </div>
     )
 }

@@ -7,12 +7,12 @@ function reducer(state,action){
     }
     else if(action.type="Blur")
     {
-        console.log("reducer",state.inputValue);
-        return {isTouched:true,inputValue:state.inputValue};
+        
+        return {isTouched:true,inputValue:action.value};
     }
     else if(action.type="Reset")
     {
-        return {...initSatete};
+        return {inputValue:"",isTouched:false};
     }
     else {
         return;

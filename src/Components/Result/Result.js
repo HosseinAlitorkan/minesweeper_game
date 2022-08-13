@@ -6,7 +6,7 @@ function Result(props) {
             <div className={classes.dark}></div>
             <div className={classes.modal}>
                 <div className={classes.header}>
-                    Game ennousement
+                    Game announcement
                 </div>
                 <div className={classes.body}>
                         {props.message}

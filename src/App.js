@@ -12,7 +12,7 @@ import Sign from './Pages/Sign';
 function App() {
   const  isLogedIn=useSelector((state)=>state.data.isLogedIn)
   const dispatch=useDispatch()
-  const [state,setstate]=useState({})
+  const [state,setstate]=useState({user:null})
   return (
     <GameContext.Provider value={[state,setstate]}>
       <Routes>
@@ -22,7 +22,7 @@ function App() {
           {!isLogedIn && <Route path='signup' element={<Sign/>}/>}
           <Route path='level' element={<Level/>}/>
           <Route path="game" element={<Game/>}/>
-            
+
           
           
         </Route>

@@ -1,7 +1,7 @@
 import classes from './Game.module.css';
 import Board from './Board'
-import {useState,useReducer,useEffect} from 'react';
-import {useSelector,useDispatch} from 'react-redux';
+import {useState,useReducer,useEffect,useContext} from 'react';
+import GameContext from "../../Context/Game_Context";
 import {over,win,setarray} from '../../Features/Data';
 import {useNavigate} from 'react-router-dom';
 import Timer from '../Layout/Timer';
@@ -76,7 +76,15 @@ function CreteGame(n_row,n_col,bomb_num)
 
 
 function Game(props)
-{   
+{
+    const [con,setcon]=useContext(GameContext);
+    console.log("context: ",con)
+    if(con.user==null)
+    {
+        console.log("hi",JSON.parse(localStorage.getItem('context')))
+        setcon(JSON.parse(localStorage.getItem('context')))
+        //localStorage.removeItem('context')
+    }
     const navigate=useNavigate();
     const n_col = 9,n_row = 9;
     const [show_arr,set_showarr]=useState([]);
@@ -200,11 +208,27 @@ function Game(props)
     }
     function restart(){
         console.log("restart");
-        window.location.reload(false);
+        localStorage.setItem('context',JSON.stringify(con));
+        window.location.reload(true);
+        //navigate('/game',{replace:true})
+
     }
-    console.log(table_arr);
+    //console.log(table_arr);
+    console.log("context2: ",con)
+    let score="no score"
+    if(con.user!=null)
+    {
+        if(con.user.score!=null  )
+        {
+            score=con.user.score
+        }
+        //console.log(score)
+    }
+
+
     return (
     <div className={classes.game}>
+        <p className={classes.score}>your last score: {score} </p>
         <div className={classes.game_info}>
             
             <div className={classes.flag_num}>
