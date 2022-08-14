@@ -28,14 +28,14 @@ function Login(props) {
     const passClass= !passHasError? classes.input : classes.pass_error; 
     function namevalidate(value)
     {
-        console.log("function_name",value.trim());
+        //console.log("function_name",value.trim());
         // if(value.trim() =="")
         // {return false;}
         return true;
     }
     function passvalidate(value)
     {
-        console.log("function_pass",value.trim().length);
+        //console.log("function_pass",value.trim().length);
         // if(value.trim().lenght<6 || value.trim()=="")
         // {
             
@@ -62,6 +62,7 @@ function Login(props) {
                 //navigate('/level')
                 //navigate('/game');
                 setcon((last)=>{return {...last,user:{name:nameValue,...user_date}}})
+                localStorage.setItem('context',JSON.stringify({...con,user:{name:nameValue,...user_date}}))
                 setmodal("you are logged in!")
 
             }
@@ -88,6 +89,7 @@ function Login(props) {
             setmodal(false);
         }
     }
+
     return(
       
         <div className={classes.login}>

@@ -3,7 +3,7 @@ import Board from './Board'
 import {useState,useReducer,useEffect,useContext} from 'react';
 import GameContext from "../../Context/Game_Context";
 import {over,win,setarray} from '../../Features/Data';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate,Link} from 'react-router-dom';
 import Timer from '../Layout/Timer';
 import Result from '../Result/Result';
 function reducer(state, action) {
@@ -78,22 +78,22 @@ function CreteGame(n_row,n_col,bomb_num)
 function Game(props)
 {
     const [con,setcon]=useContext(GameContext);
-    console.log("context: ",con)
-    if(con.user==null)
-    {
-        console.log("hi",JSON.parse(localStorage.getItem('context')))
-        setcon(JSON.parse(localStorage.getItem('context')))
-        //localStorage.removeItem('context')
-    }
+    //console.log("context: ",con)
+    // if(con.user==null)
+    // {
+    //     console.log("hi",JSON.parse(localStorage.getItem('context')))
+    //     setcon(()=>JSON.parse(localStorage.getItem('context')))//it caused some problems with rendeing the app component
+    //     //localStorage.removeItem('context')
+    // }
     const navigate=useNavigate();
     const n_col = 9,n_row = 9;
     const [show_arr,set_showarr]=useState([]);
     const [game,dispatch] = useReducer(reducer,initgame);
     const [table_arr,set_arr]=useState(CreteGame(9,9,30));
     const [game_end,setgame_end]=useState(false);
-    console.log("flagged bomb: ",game.bomb_flagged,game.bomb_num);
+    //console.log("flagged bomb: ",game.bomb_flagged,game.bomb_num);
     useEffect(()=>{
-        console.log("check winning");
+        //console.log("check winning");
         if(game.bomb_flagged==game.bomb_num && !game_end)
         {
             //dispatch({type:"lose"});
@@ -210,7 +210,7 @@ function Game(props)
         console.log("restart");
         localStorage.setItem('context',JSON.stringify(con));
         window.location.reload(true);
-        //navigate('/game',{replace:true})
+        
 
     }
     //console.log(table_arr);
@@ -222,9 +222,19 @@ function Game(props)
         {
             score=con.user.score
         }
-        //console.log(score)
+        console.log('score',score)
     }
-
+    
+    useEffect(()=>{
+    if(con.use==null)    
+    { 
+        console.log("hi",JSON.parse(localStorage.getItem('context')))
+        setcon(()=>JSON.parse(localStorage.getItem('context')))//it caused some problems with rendeing the app component
+        //localStorage.removeItem('context')
+    }    
+    },[])
+        
+    
 
     return (
     <div className={classes.game}>
@@ -241,7 +251,7 @@ function Game(props)
         <Board level='easy' 
          onContextMenu={contextMenuHandler} onClick={clickHandler}  change={set_changer}/>
         {game.game_winner && <Result message='You Win😁' onClick={modalHandler} />  } 
-        {!game.game_status &&<button className={classes.restart} onClick={restart}>ReStart</button>}
+        {!game.game_status &&<button className={classes.restart} onClick={restart} >ReStart</button>}
          
     </div>
     );
